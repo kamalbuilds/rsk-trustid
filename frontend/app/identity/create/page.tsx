@@ -2,13 +2,15 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Web3Button } from "thirdweb/react";
-import { useIsUsernameAvailable, formatUsernameToDid, useWalletAddress } from "@/lib/thirdweb-contracts";
+import { TransactionButton } from "thirdweb/react";
+import { prepareContractCall } from "thirdweb";
+import { useIsUsernameAvailable, formatUsernameToDid, useWalletAddress, useTrustIDFactory } from "@/lib/thirdweb-contracts";
 import Link from "next/link";
 
 export default function CreateIdentityPage() {
   const router = useRouter();
   const address = useWalletAddress();
+  const { contract } = useTrustIDFactory();
   
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
@@ -60,6 +62,15 @@ export default function CreateIdentityPage() {
     // Redirect to the view page with the new DID
     const did = formatUsernameToDid(username);
     router.push(`/identity/view?did=${did}`);
+  };
+
+  // Prepare transaction
+  const prepareCreateIdentityTransaction = () => {
+    return prepareContractCall({
+      contract,
+      method: "function createIdentity(string username, string metadataURI) external returns (string)",
+      params: [username, createMetadata()]
+    });
   };
 
   return (
@@ -222,20 +233,14 @@ export default function CreateIdentityPage() {
                 Cancel
               </Link>
               
-              <Web3Button
-                contractAddress={process.env.NEXT_PUBLIC_TRUSTID_FACTORY_ADDRESS || ""}
-                action={(contract: any) => {
-                  return contract.call(
-                    "createIdentity",
-                    [username, createMetadata()]
-                  );
-                }}
-                onSuccess={handleSuccess}
-                disabled={!username || !!usernameError || !isAvailable}
+              <TransactionButton
+                transaction={prepareCreateIdentityTransaction}
+                disabled={!username || !!usernameError || !isAvailable || !address}
                 className="inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                onTransactionConfirmed={() => handleSuccess()}
               >
                 Create Identity
-              </Web3Button>
+              </TransactionButton>
             </div>
           </form>
         </div>

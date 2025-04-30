@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import contracts from "@/config/contracts";
+import { ContractAddresses } from '@/config/contracts';
 
 // Mock ABIs until actual ones are available
 const IdentityRegistryABI = [
@@ -184,8 +185,8 @@ export function getIdentityRegistryContract(
   provider: ethers.Provider, 
   networkName: string = "testnet"
 ) {
-  const address = contracts[networkName].identityRegistry;
-  return IdentityRegistry__factory.connect(address, provider);
+  const address = (contracts[networkName] as ContractAddresses).trustIdFactory;
+  return new ethers.Contract(address, IdentityRegistryABI, provider);
 }
 
 /**
@@ -195,8 +196,8 @@ export function getTrustIDContract(
   provider: ethers.Provider, 
   networkName: string = "testnet"
 ) {
-  const address = contracts[networkName].trustId;
-  return TrustID__factory.connect(address, provider);
+  const address = (contracts[networkName] as ContractAddresses).trustId;
+  return new ethers.Contract(address, IdentityRegistryABI, provider);
 }
 
 /**
