@@ -270,7 +270,14 @@ contract TrustID is Ownable {
     /**
      * @dev Get credential information
      * @param credentialId The credential ID to query
-     * @return The credential details
+     * @return id The unique identifier for the credential
+     * @return issuer The address that issued the credential
+     * @return subject The address that owns the credential
+     * @return credentialType The type of credential
+     * @return metadataURI URI pointing to the credential data
+     * @return issuedAt When the credential was issued
+     * @return expiresAt When the credential expires (0 for no expiration)
+     * @return revoked Whether the credential has been revoked
      */
     function getCredential(bytes32 credentialId) external view returns (
         bytes32 id,
