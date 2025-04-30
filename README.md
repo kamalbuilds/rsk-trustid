@@ -33,6 +33,9 @@ The web interface allows users to:
 - **Verifiable Credentials**: Issue, receive, and verify credentials in a privacy-preserving manner
 - **Human-Readable Addresses**: Integration with RIF Name Service for easy-to-remember addresses
 
+## Demo Video
+
+
 ## Technology Stack
 
 - **Blockchain**: Rootstock (RSK) - Bitcoin sidechain with smart contract capabilities
