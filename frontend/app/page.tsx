@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 
 export default function Home() {
@@ -125,10 +126,6 @@ export default function Home() {
                 src="/rootstock-logo.png" 
                 alt="Rootstock Logo" 
                 className="h-16 w-auto"
-                onError={(e) => {
-                  // Fallback if image doesn't exist
-                  e.currentTarget.style.display = 'none';
-                }}
               />
             </div>
           </div>

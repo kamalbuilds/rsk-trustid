@@ -42,9 +42,14 @@ export async function getContracts() {
   const network = await provider.getNetwork();
   
   // Determine which network addresses to use
-  const networkName = network.chainId === 31n ? 'testnet' :
-                      network.chainId === 30n ? 'mainnet' : 
-                      'localhost';
+  let networkName = 'localhost';
+  const chainId = Number(network.chainId);
+  
+  if (chainId === 31) {
+    networkName = 'testnet';
+  } else if (chainId === 30) {
+    networkName = 'mainnet';
+  }
   
   const addresses = contracts[networkName];
   

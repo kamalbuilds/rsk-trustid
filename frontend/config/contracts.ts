@@ -8,9 +8,9 @@ export type ContractAddresses = {
 const contracts: Record<string, ContractAddresses> = {
   // RSK Testnet addresses
   testnet: {
-    trustId: "0x0000000000000000000000000000000000000000", // Replace with actual deployed address
-    trustIdFactory: "0x0000000000000000000000000000000000000000", // Replace with actual deployed address
-    aiReputationOracle: "0x0000000000000000000000000000000000000000", // Replace with actual deployed address
+    trustId: process.env.NEXT_PUBLIC_TRUST_ID_ADDRESS || "", // Replace with actual deployed address
+    trustIdFactory: process.env.NEXT_PUBLIC_TRUST_ID_FACTORY_ADDRESS || "", // Replace with actual deployed address
+    aiReputationOracle: process.env.NEXT_PUBLIC_AI_REPUTATION_ORACLE_ADDRESS || "", // Replace with actual deployed address
   },
   // RSK Mainnet addresses
   mainnet: {
