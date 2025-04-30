@@ -2,6 +2,10 @@ import { getContract } from "thirdweb";
 import { useReadContract, useSendTransaction, useActiveAccount } from "thirdweb/react";
 import contracts from '@/config/contracts';
 import { client } from '@/lib/client';
+import { defineChain } from "thirdweb/chains";
+
+// RSK Testnet chain definition
+const rskTestnet = defineChain(31);
 
 /**
  * Hook to get the TrustID Factory contract
@@ -11,7 +15,8 @@ export function useTrustIDFactory(networkName: string = 'testnet') {
   
   const contract = getContract({
     address: addresses.trustIdFactory,
-    client
+    client,
+    chain: rskTestnet
   });
   
   return { contract };
@@ -25,7 +30,8 @@ export function useTrustID(networkName: string = 'testnet') {
   
   const contract = getContract({
     address: addresses.trustId,
-    client
+    client,
+    chain: rskTestnet
   });
   
   return { contract };
@@ -39,7 +45,8 @@ export function useAIReputationOracle(networkName: string = 'testnet') {
   
   const contract = getContract({
     address: addresses.aiReputationOracle,
-    client
+    client,
+    chain: rskTestnet
   });
   
   return { contract };
@@ -53,8 +60,8 @@ export function useIsUsernameAvailable(username: string) {
   
   return useReadContract({
     contract,
-    functionName: "isUsernameAvailable",
-    args: [username]
+    method: "function isUsernameAvailable(string username) view returns (bool)",
+    params: [username]
   });
 }
 
@@ -75,8 +82,8 @@ export function useGetIdentity(did: string) {
   
   return useReadContract({
     contract,
-    functionName: "getIdentity",
-    args: [did]
+    method: "function getIdentity(string did) view returns (address, string, string, uint256)",
+    params: [did]
   });
 }
 
@@ -97,8 +104,8 @@ export function useGetIdentityCredentials(did: string) {
   
   return useReadContract({
     contract,
-    functionName: "getIdentityCredentials",
-    args: [did]
+    method: "function getIdentityCredentials(string did) view returns (string[])",
+    params: [did]
   });
 }
 
@@ -110,8 +117,8 @@ export function useGetCredential(credentialId: string) {
   
   return useReadContract({
     contract,
-    functionName: "getCredential",
-    args: [credentialId]
+    method: "function getCredential(string credentialId) view returns (string, address, address, string, string, uint256, uint256, bool)",
+    params: [credentialId]
   });
 }
 
@@ -123,8 +130,8 @@ export function useVerifyCredential(credentialId: string) {
   
   return useReadContract({
     contract,
-    functionName: "verifyCredential",
-    args: [credentialId]
+    method: "function verifyCredential(string credentialId) view returns (bool)",
+    params: [credentialId]
   });
 }
 
@@ -136,8 +143,8 @@ export function useGetReputation(did: string) {
   
   return useReadContract({
     contract,
-    functionName: "getReputation",
-    args: [did]
+    method: "function getReputation(string did) view returns (uint256)",
+    params: [did]
   });
 }
 
@@ -149,8 +156,8 @@ export function useGetCategoryReputation(did: string, category: string) {
   
   return useReadContract({
     contract,
-    functionName: "getCategoryReputation",
-    args: [did, category]
+    method: "function getCategoryReputation(string did, string category) view returns (uint256)",
+    params: [did, category]
   });
 }
 
